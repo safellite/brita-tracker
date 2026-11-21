@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>滤芯记录 · 碧然德滤水壶</title>
+
+  <!-- iOS Web App (PWA) Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="滤芯记录" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F2F7FB" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000" />
+
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="icon.svg" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <style>
+    :root {
+      --bg-primary: #F2F7FB;
+      --bg-card: #FFFFFF;
+      --bg-card-secondary: #F7FAFC;
+      --bg-glass: rgba(255, 255, 255, 0.86);
+      --text-primary: #0F172A;
+      --text-secondary: #475569;
+      --text-muted: #94A3B8;
+      --border-color: rgba(148, 163, 184, 0.18);
+      --accent: #0088FF;
+      --accent-strong: #0066CC;
+      --accent-soft: rgba(0, 136, 255, 0.12);
+      --accent-gradient: linear-gradient(135deg, #0099FF 0%, #0066EE 100%);
+      --water-wave-1: rgba(0, 153, 255, 0.22);
+      --water-wave-2: rgba(0, 119, 255, 0.35);
+      --success: #10B981;
+      --warning: #F59E0B;
+      --warning-soft: rgba(245, 158, 11, 0.14);
+      --danger: #EF4444;
+      --danger-soft: rgba(239, 68, 68, 0.14);
+      --shadow-card: 0 8px 28px -6px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
+      --shadow-btn: 0 10px 25px -5px rgba(0, 122, 255, 0.42);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg-primary: #000000;
+        --bg-card: #121417;
+        --bg-card-secondary: #1A1D22;
+        --bg-glass: rgba(22, 25, 30, 0.88);
+        --text-primary: #F8FAFC;
+        --text-secondary: #94A3B8;
+        --text-muted: #64748B;
+        --border-color: rgba(255, 255, 255, 0.09);
+        --accent: #2E9BFF;
+        --accent-strong: #58B0FF;
+        --accent-soft: rgba(46, 155, 255, 0.16);
+        --accent-gradient: linear-gradient(135deg, #1E90FF 0%, #0062D6 100%);
+        --water-wave-1: rgba(46, 155, 255, 0.20);
+        --water-wave-2: rgba(14, 116, 244, 0.32);
+        --shadow-card: 0 10px 30px -8px rgba(0, 0, 0, 0.6);
+        --shadow-btn: 0 10px 28px -6px rgba(30, 144, 255, 0.48);
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg-primary: #000000;
+      --bg-card: #121417;
+      --bg-card-secondary: #1A1D22;
+      --bg-glass: rgba(22, 25, 30, 0.88);
+      --text-primary: #F8FAFC;
+      --text-secondary: #94A3B8;
+      --text-muted: #64748B;
+      --border-color: rgba(255, 255, 255, 0.09);
+      --accent: #2E9BFF;
+      --accent-strong: #58B0FF;
+      --accent-soft: rgba(46, 155, 255, 0.16);
+      --accent-gradient: linear-gradient(135deg, #1E90FF 0%, #0062D6 100%);
+      --water-wave-1: rgba(46, 155, 255, 0.20);
+      --water-wave-2: rgba(14, 116, 244, 0.32);
+      --shadow-card: 0 10px 30px -8px rgba(0, 0, 0, 0.6);
+      --shadow-btn: 0 10px 28px -6px rgba(30, 144, 255, 0.48);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      min-height: 100%;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+    }
+
+    .app-container {
+      max-width: 460px;
+      margin: 0 auto;
+      padding: calc(env(safe-area-inset-top, 12px) + 14px) 16px calc(env(safe-area-inset-bottom, 20px) + 28px);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2px 4px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      background: var(--accent-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(0, 122, 255, 0.28);
+      flex-shrink: 0;
+    }
+
+    .brand-text h1 {
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      line-height: 1.2;
+    }
+
+    .brand-subtitle {
+      font-size: 12px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.15s ease, background-color 0.15s ease;
+    }
+
+    .icon-btn:active {
+      transform: scale(0.92);
+      background: var(--bg-card-secondary);
+    }
+
+    .hero-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      padding: 22px 20px 18px;
+      box-shadow: var(--shadow-card);
+      border: 1px solid var(--border-color);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .filter-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 11px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 600;
+      background: var(--accent-soft);
+      color: var(--accent);
+      cursor: pointer;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status-good { background: rgba(16, 185, 129, 0.12); color: var(--success); }
+    .status-warn { background: var(--warning-soft); color: var(--warning); }
+    .status-expired { background: var(--danger-soft); color: var(--danger); }
+
+    .gauge-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 4px 0 18px;
+      position: relative;
+    }
+
+    .gauge-container {
+      width: 196px;
+      height: 196px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gauge-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+    .gauge-track { fill: none; stroke: var(--bg-card-secondary); stroke-width: 13; }
+    .gauge-fill {
+      fill: none;
+      stroke: url(#blueGrad);
+      stroke-width: 13;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 0.55s cubic-bezier(0.22, 1, 0.36, 1), stroke 0.3s ease;
+    }
+
+    .gauge-inner {
+      position: absolute;
+      inset: 20px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: var(--bg-card-secondary);
+      border: 1px solid var(--border-color);
+    }
+
+    .water-level-bg {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(180deg, var(--water-wave-1) 0%, var(--water-wave-2) 100%);
+      transition: height 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .gauge-text { position: relative; z-index: 1; text-align: center; }
+    .gauge-label-top { font-size: 12px; color: var(--text-secondary); font-weight: 500; margin-bottom: 2px; }
+    .gauge-value-row { display: flex; align-items: baseline; justify-content: center; gap: 3px; }
+    .gauge-current { font-size: 46px; font-weight: 800; letter-spacing: -1.5px; line-height: 1.05; font-variant-numeric: tabular-nums; }
+    .gauge-target { font-size: 16px; font-weight: 600; color: var(--text-secondary); }
+    .gauge-remaining { margin-top: 5px; font-size: 12.5px; font-weight: 600; color: var(--accent); }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .metric-item { background: var(--bg-card-secondary); border-radius: var(--radius-md); padding: 10px 8px; text-align: center; }
+    .metric-label { font-size: 11.5px; color: var(--text-secondary); margin-bottom: 4px; }
+    .metric-value { font-size: 15.5px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--text-primary); }
+    .metric-sub { font-size: 10.5px; color: var(--text-muted); margin-top: 2px; }
+
+    .action-section { display: flex; flex-direction: column; gap: 10px; }
+    .btn-add-water {
+      width: 100%;
+      border: none;
+      border-radius: var(--radius-xl);
+      background: var(--accent-gradient);
+      color: #FFFFFF;
+      padding: 17px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      cursor: pointer;
+      box-shadow: var(--shadow-btn);
+      transition: transform 0.14s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.15s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-add-water:active { transform: scale(0.965); filter: brightness(0.95); }
+    .btn-add-icon { width: 36px; height: 36px; border-radius: 50%; background: rgba(255, 255, 255, 0.22); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .btn-add-content { text-align: left; }
+    .btn-add-title { font-size: 19px; font-weight: 700; letter-spacing: -0.2px; line-height: 1.2; }
+    .btn-add-desc { font-size: 12px; opacity: 0.86; margin-top: 2px; }
+
+    .quick-actions-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .btn-secondary {
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-primary);
+      border-radius: var(--radius-lg);
+      padding: 12px 14px;
+      font-size: 13.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      cursor: pointer;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.12s ease, opacity 0.15s ease;
+    }
+    .btn-secondary:active:not(:disabled) { transform: scale(0.96); }
+    .btn-secondary:disabled { opacity: 0.42; cursor: not-allowed; }
+    .btn-undo { color: var(--warning); }
+
+    .tabs-card { background: var(--bg-card); border-radius: var(--radius-xl); padding: 16px; box-shadow: var(--shadow-card); border: 1px solid var(--border-color); }
+    .segmented-control { display: grid; grid-template-columns: 1fr 1fr; background: var(--bg-card-secondary); padding: 4px; border-radius: 13px; margin-bottom: 14px; }
+    .segment-btn { border: none; background: transparent; color: var(--text-secondary); padding: 8px 12px; font-size: 13.5px; font-weight: 600; border-radius: 10px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .segment-btn.active { background: var(--bg-card); color: var(--text-primary); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); }
+    .segment-count { font-size: 11px; padding: 1px 6px; border-radius: 99px; background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+
+    .section-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding: 0 2px; }
+    .section-hint { font-size: 12px; color: var(--text-secondary); }
+    .text-link-btn { border: none; background: none; color: var(--accent); font-size: 12.5px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; padding: 4px 6px; border-radius: 6px; }
+    .text-link-btn:active { background: var(--accent-soft); }
+
+    .log-list { display: flex; flex-direction: column; gap: 8px; max-height: 340px; overflow-y: auto; padding-right: 2px; }
+    .log-item { display: flex; align-items: center; justify-content: space-between; padding: 11px 13px; background: var(--bg-card-secondary); border-radius: var(--radius-md); border: 1px solid var(--border-color); }
+    .log-left { display: flex; align-items: center; gap: 10px; }
+    .log-index-badge { min-width: 42px; height: 28px; padding: 0 8px; border-radius: 8px; background: var(--accent-soft); color: var(--accent); font-size: 12.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-variant-numeric: tabular-nums; }
+    .log-info-title { font-size: 14px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 6px; }
+    .log-info-time { font-size: 12px; color: var(--text-secondary); margin-top: 2px; font-variant-numeric: tabular-nums; }
+    .log-delete-btn { width: 30px; height: 30px; border-radius: 8px; border: none; background: transparent; color: var(--text-muted); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    .log-delete-btn:active { background: var(--danger-soft); color: var(--danger); }
+    .empty-state { text-align: center; padding: 28px 16px; color: var(--text-muted); font-size: 13.5px; line-height: 1.6; }
+
+    .replace-filter-banner { display: flex; align-items: center; justify-content: space-between; background: var(--accent-soft); border: 1px solid rgba(0, 136, 255, 0.22); padding: 13px 14px; border-radius: var(--radius-lg); margin-bottom: 12px; }
+    .replace-banner-text h4 { font-size: 14px; font-weight: 700; color: var(--text-primary); }
+    .replace-banner-text p { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+    .btn-replace-now { border: none; background: var(--accent); color: #fff; font-size: 13px; font-weight: 600; padding: 9px 14px; border-radius: 11px; cursor: pointer; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0, 136, 255, 0.25); }
+    .btn-replace-now:active { transform: scale(0.95); }
+
+    .history-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; background: var(--bg-card-secondary); border-radius: var(--radius-md); border: 1px solid var(--border-color); }
+    .history-main { display: flex; flex-direction: column; gap: 3px; }
+    .history-date-code { font-size: 15px; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 8px; font-variant-numeric: tabular-nums; }
+    .history-type-tag { font-size: 11.5px; font-weight: 600; padding: 2px 8px; border-radius: 6px; background: var(--bg-card); color: var(--text-secondary); border: 1px solid var(--border-color); }
+    .history-sub { font-size: 12px; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+    .history-right { display: flex; align-items: center; gap: 10px; }
+    .history-liters { text-align: right; }
+    .history-liters-num { font-size: 17px; font-weight: 800; color: var(--accent); font-variant-numeric: tabular-nums; }
+    .history-liters-unit { font-size: 11px; color: var(--text-secondary); }
+
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.55); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 100; display: none; align-items: flex-end; justify-content: center; padding: 0; }
+    .modal-backdrop.open { display: flex; animation: fadeIn 0.2s ease; }
+    .modal-sheet { width: 100%; max-width: 460px; background: var(--bg-card); border-radius: 24px 24px 0 0; padding: 20px 20px calc(env(safe-area-inset-bottom, 20px) + 20px); border-top: 1px solid var(--border-color); animation: slideUp 0.25s cubic-bezier(0.22, 1, 0.36, 1); max-height: 88vh; overflow-y: auto; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .modal-title { font-size: 17px; font-weight: 700; }
+    .modal-close { width: 30px; height: 30px; border-radius: 50%; border: none; background: var(--bg-card-secondary); color: var(--text-secondary); font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .form-group { margin-bottom: 14px; }
+    .form-label { display: block; font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; }
+    .form-input, .form-select { width: 100%; padding: 12px 14px; border-radius: var(--radius-md); border: 1px solid var(--border-color); background: var(--bg-card-secondary); color: var(--text-primary); font-size: 15px; font-family: inherit; outline: none; }
+    .form-input:focus, .form-select:focus { border-color: var(--accent); }
+    .preset-pills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 8px; }
+    .preset-pill { border: 1px solid var(--border-color); background: var(--bg-card-secondary); color: var(--text-primary); padding: 10px 8px; border-radius: var(--radius-md); text-align: center; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.15s ease; }
+    .preset-pill.selected { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+    .preset-pill span { display: block; font-size: 11px; font-weight: 400; color: var(--text-secondary); margin-top: 2px; }
+    .form-hint { font-size: 11.5px; color: var(--text-muted); margin-top: 5px; line-height: 1.45; }
+    .modal-actions { display: flex; gap: 10px; margin-top: 18px; }
+    .btn-modal { flex: 1; padding: 13px 16px; border-radius: var(--radius-md); font-size: 15px; font-weight: 600; cursor: pointer; border: none; }
+    .btn-modal-cancel { background: var(--bg-card-secondary); color: var(--text-secondary); }
+    .btn-modal-primary { background: var(--accent-gradient); color: #fff; }
+    .toast { position: fixed; top: calc(env(safe-area-inset-top, 16px) + 12px); left: 50%; transform: translateX(-50%) translateY(-20px); background: rgba(15, 23, 42, 0.92); color: #fff; padding: 10px 18px; border-radius: 999px; font-size: 13.5px; font-weight: 600; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25); z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.22s ease, transform 0.22s ease; display: flex; align-items: center; gap: 7px; white-space: nowrap; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .backup-actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+    .checkbox-row { display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--text-primary); cursor: pointer; margin-top: 6px; }
+    .checkbox-row input { width: 17px; height: 17px; accent-color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <header class="header">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>碧然德滤芯记录</h1>
+          <div class="brand-subtitle">
+            <span id="headerStartDate">启用日期 --</span>
+          </div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" id="btnOpenEditFilter" title="调整当前滤芯进度">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+          </svg>
+        </button>
+        <button class="icon-btn" id="btnOpenSettings" title="数据备份与设置">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <section class="hero-card">
+      <div class="hero-top-row">
+        <div class="filter-badge" id="filterTypeBadge" title="点击调整当前滤芯设置">
+          <span id="filterTypeText">专业版滤芯</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </div>
+        <div class="status-badge status-good" id="filterStatusBadge">
+          <span id="filterStatusText">状态良好</span>
+        </div>
+      </div>
+
+      <div class="gauge-wrapper">
+        <div class="gauge-container">
+          <svg class="gauge-svg" viewBox="0 0 200 200">
+            <defs>
+              <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#00B2FF" />
+                <stop offset="100%" stop-color="#0066FF" />
+              </linearGradient>
+              <linearGradient id="warnGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#FBBF24" />
+                <stop offset="100%" stop-color="#F59E0B" />
+              </linearGradient>
+              <linearGradient id="dangerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#F87171" />
+                <stop offset="100%" stop-color="#EF4444" />
+              </linearGradient>
+            </defs>
+            <circle class="gauge-track" cx="100" cy="100" r="86" />
+            <circle class="gauge-fill" id="gaugeFillCircle" cx="100" cy="100" r="86" stroke-dasharray="540.35" stroke-dashoffset="540.35" />
+          </svg>
+          <div class="gauge-inner">
+            <div class="water-level-bg" id="waterLevelBg" style="height: 0%;"></div>
+            <div class="gauge-text">
+              <div class="gauge-label-top">当前累计净水</div>
+              <div class="gauge-value-row">
+                <span class="gauge-current" id="currentLitersText">0</span>
+                <span class="gauge-target">/ <span id="targetLitersText">80</span> L</span>
+              </div>
+              <div class="gauge-remaining" id="remainingLitersText">剩余可净化 80 L</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric-item">
+          <div class="metric-label">已使用天数</div>
+          <div class="metric-value" id="metricDaysUsed">1 天</div>
+          <div class="metric-sub" id="metricStartShort">今日启用</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">日均净水量</div>
+          <div class="metric-value" id="metricDailyAvg">0.0 L</div>
+          <div class="metric-sub">平均每天</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">预计还可用</div>
+          <div class="metric-value" id="metricEstDays">-- 天</div>
+          <div class="metric-sub" id="metricEstDate">按当前频率</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="action-section">
+      <button class="btn-add-water" id="btnAddOneLiter">
+        <div class="btn-add-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+        </div>
+        <div class="btn-add-content">
+          <div class="btn-add-title">记录净水 +1 L</div>
+          <div class="btn-add-desc" id="lastLogSubtext">点击即刻记录当前时间</div>
+        </div>
+      </button>
+
+      <div class="quick-actions-row">
+        <button class="btn-secondary btn-undo" id="btnUndoLast" disabled>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/>
+          </svg>
+          <span id="undoBtnText">撤销上次</span>
+        </button>
+        <button class="btn-secondary" id="btnOpenBackfill">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+          <span>手动补录 / 调整</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="tabs-card">
+      <div class="segmented-control">
+        <button class="segment-btn active" id="tabBtnLogs">
+          <span>本次净水明细</span>
+          <span class="segment-count" id="logsCountBadge">0</span>
+        </button>
+        <button class="segment-btn" id="tabBtnHistory">
+          <span>历次换芯档案</span>
+          <span class="segment-count" id="historyCountBadge">0</span>
+        </button>
+      </div>
+
+      <div id="tabPanelLogs">
+        <div class="section-toolbar">
+          <span class="section-hint" id="initialVolumeNote">每次点击自动记录具体时间</span>
+          <button class="text-link-btn" id="btnQuickSetInitial">
+            <span>设初始升数</span>
+          </button>
+        </div>
+        <div class="log-list" id="logsListContainer"></div>
+      </div>
+
+      <div id="tabPanelHistory" style="display: none;">
+        <div class="replace-filter-banner">
+          <div class="replace-banner-text">
+            <h4>准备更换新滤芯？</h4>
+            <p>自动归档当前滤芯并开启新周期</p>
+          </div>
+          <button class="btn-replace-now" id="btnOpenReplaceModal">更换新滤芯</button>
+        </div>
+
+        <div class="section-toolbar">
+          <span class="section-hint">历史滤芯记录</span>
+          <button class="text-link-btn" id="btnOpenAddHistory">
+            <span>+ 补录旧滤芯</span>
+          </button>
+        </div>
+        <div class="log-list" id="historyListContainer"></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="modalEditFilter">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <div class="modal-title">调整当前滤芯信息</div>
+        <button class="modal-close" data-close="modalEditFilter">&times;</button>
+      </div>
+      <div class="form-group">
+        <label class="form-label">滤芯型号与额定寿命</label>
+        <div class="preset-pills" id="editFilterPresets">
+          <div class="preset-pill selected" data-type="专业版滤芯" data-target="80">专业版<span>80 L</span></div>
+          <div class="preset-pill" data-type="标准版滤芯" data-target="50">标准版<span>50 L</span></div>
+          <div class="preset-pill" data-type="自定义滤芯" data-target="custom">自定义<span>自定升数</span></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inputFilterName">滤芯名称</label>
+        <input type="text" class="form-input" id="inputFilterName" placeholder="如：专业版滤芯" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inputTargetLiters">目标更换净水量 (L)</label>
+        <input type="number" class="form-input" id="inputTargetLiters" min="1" max="500" step="1" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inputStartDate">当前滤芯启用日期</label>
+        <input type="date" class="form-input" id="inputStartDate" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inputInitialLiters">启用前的初始已净水升数 (L)</label>
+        <input type="number" class="form-input" id="inputInitialLiters" min="0" max="500" step="0.5" placeholder="0" />
+        <div class="form-hint">如果你当前这颗滤芯在用本网页前已经在备忘录记了一部分（比如已滤 30L），填在这里即可直接从 30L 接着往上加。</div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-modal btn-modal-cancel" data-close="modalEditFilter">取消</button>
+        <button class="btn-modal btn-modal-primary" id="btnSaveFilterEdit">保存设置</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackfill">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <div class="modal-title">手动补录净水记录</div>
+        <button class="modal-close" data-close="modalBackfill">&times;</button>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inputBackfillVolume">净水升数 (L)</label>
+        <input type="number" class="form-input" id="inputBackfillVolume" value="1" min="0.5" max="20" step="0.5" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inputBackfillTime">净水日期与时间</label>
+        <input type="datetime-local" class="form-input" id="inputBackfillTime" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inputBackfillNote">备注（可选）</label>
+        <input type="text" class="form-input" id="inputBackfillNote" placeholder="如：补记昨晚净水" />
+      </div>
+      <div class="modal-actions">
+        <button class="btn-modal btn-modal-cancel" data-close="modalBackfill">取消</button>
+        <button class="btn-modal btn-modal-primary" id="btnSaveBackfill">确认添加</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="modalReplaceFilter">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <div class="modal-title">更换新滤芯</div>
+        <button class="modal-close" data-close="modalReplaceFilter">&times;</button>
+      </div>
+      <div class="form-group">
+        <label class="form-label">选择新滤芯规格</label>
+        <div class="preset-pills" id="replaceFilterPresets">
+          <div class="preset-pill selected" data-type="专业版滤芯" data-target="80">专业版<span>80 L</span></div>
+          <div class="preset-pill" data-type="标准版滤芯" data-target="50">标准版<span>50 L</span></div>
+          <div class="preset-pill" data-type="自定义滤芯" data-target="80">自定义<span>可改升数</span></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inputNewFilterName">新滤芯名称</label>
+        <input type="text" class="form-input" id="inputNewFilterName" value="专业版滤芯" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inputNewTargetLiters">目标净水量 (L)</label>
+        <input type="number" class="form-input" id="inputNewTargetLiters" value="80" min="1" max="500" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inputNewStartDate">新滤芯启用日期</label>
+        <input type="date" class="form-input" id="inputNewStartDate" />
+      </div>
+      <label class="checkbox-row">
+        <input type="checkbox" id="chkArchiveOld" checked />
+        <span>将当前滤芯自动归档到「历次换芯档案」</span>
+      </label>
+      <div class="modal-actions">
+        <button class="btn-modal btn-modal-cancel" data-close="modalReplaceFilter">取消</button>
+        <button class="btn-modal btn-modal-primary" id="btnConfirmReplace">开启新滤芯</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="modalAddHistory">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <div class="modal-title">补录历史滤芯档案</div>
+        <button class="modal-close" data-close="modalAddHistory">&times;</button>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inputHistStartDate">启用日期（如备忘录里的 0829）</label>
+        <input type="date" class="form-input" id="inputHistStartDate" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inputHistEndDate">更换/结束日期（可选）</label>
+        <input type="date" class="form-input" id="inputHistEndDate" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inputHistType">滤芯型号</label>
+        <select class="form-select" id="inputHistType">
+          <option value="专业版滤芯">专业版滤芯</option>
+          <option value="标准版滤芯">标准版滤芯</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inputHistLiters">累计净水量 (L)</label>
+        <input type="number" class="form-input" id="inputHistLiters" value="80" min="0" max="500" step="0.5" />
+      </div>
+      <div class="modal-actions">
+        <button class="btn-modal btn-modal-cancel" data-close="modalAddHistory">取消</button>
+        <button class="btn-modal btn-modal-primary" id="btnSaveHistoryItem">保存档案</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="modalSettings">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <div class="modal-title">备份与外观设置</div>
+        <button class="modal-close" data-close="modalSettings">&times;</button>
+      </div>
+      <div class="form-group">
+        <label class="form-label">外观主题</label>
+        <div class="preset-pills" id="themePresets">
+          <div class="preset-pill selected" data-theme-val="auto">跟随系统</div>
+          <div class="preset-pill" data-theme-val="light">清爽浅色</div>
+          <div class="preset-pill" data-theme-val="dark">纯黑深色</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">数据备份与恢复（防丢保障）</label>
+        <div class="form-hint" style="margin-bottom: 10px;">数据保存在你的 iPhone 本地浏览器中。你可以随时导出备份文件或复制备份码到备忘录。</div>
+        <div class="backup-actions-grid">
+          <button class="btn-secondary" id="btnExportJson">下载备份文件</button>
+          <button class="btn-secondary" id="btnCopyBackup">复制备份数据</button>
+          <button class="btn-secondary" id="btnImportJsonTrigger">导入备份文件</button>
+          <button class="btn-secondary" id="btnPasteBackup">粘贴恢复数据</button>
+        </div>
+        <input type="file" id="fileImportInput" accept=".json,application/json" style="display: none;" />
+      </div>
+      <div class="form-group" style="margin-top: 16px;">
+        <label class="form-label">添加到 iPhone 桌面小贴士</label>
+        <div class="form-hint">在 iPhone Safari 打开本页 → 点击底部<strong>「分享」</strong>按钮 → 选择<strong>「添加到主屏幕」</strong>，即可在桌面获得独立图标与全屏体验。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toastEl">已记录 +1 L</div>
+  <script>
+    (function () {
+      const STORAGE_KEY = 'brita_filter_tracker_v1';
+      const THEME_KEY = 'brita_filter_theme_v1';
+      const CIRCUMFERENCE = 2 * Math.PI * 86;
+
+      function getTodayDateStr() {
+        const now = new Date();
+        const y = now.getFullYear();
+        const m = String(now.getMonth() + 1).padStart(2, '0');
+        const d = String(now.getDate()).padStart(2, '0');
+        return y + '-' + m + '-' + d;
+      }
+
+      function getLocalDatetimeInputStr(date = new Date()) {
+        const y = date.getFullYear();
+        const m = String(date.getMonth() + 1).padStart(2, '0');
+        const d = String(date.getDate()).padStart(2, '0');
+        const hh = String(date.getHours()).padStart(2, '0');
+        const mm = String(date.getMinutes()).padStart(2, '0');
+        return y + '-' + m + '-' + d + 'T' + hh + ':' + mm;
+      }
+
+      function createDefaultState() {
+        return {
+          currentFilter: {
+            name: '专业版滤芯',
+            targetLiters: 80,
+            startDate: getTodayDateStr(),
+            initialLiters: 0,
+            logs: []
+          },
+          history: []
+        };
+      }
+
+      let state = loadState();
+      let toastTimer = null;
+
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return createDefaultState();
+          const parsed = JSON.parse(raw);
+          if (!parsed || !parsed.currentFilter) return createDefaultState();
+          parsed.currentFilter.initialLiters = Number(parsed.currentFilter.initialLiters) || 0;
+          parsed.currentFilter.targetLiters = Number(parsed.currentFilter.targetLiters) || 80;
+          parsed.currentFilter.logs = Array.isArray(parsed.currentFilter.logs) ? parsed.currentFilter.logs : [];
+          parsed.history = Array.isArray(parsed.history) ? parsed.history : [];
+          return parsed;
+        } catch (e) {
+          return createDefaultState();
+        }
+      }
+
+      function saveState() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      }
+
+      function showToast(msg) {
+        const el = document.getElementById('toastEl');
+        el.textContent = msg;
+        el.classList.add('show');
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          el.classList.remove('show');
+        }, 2100);
+      }
+
+      function formatNumber(n) {
+        const num = Number(n) || 0;
+        return Number.isInteger(num) ? String(num) : num.toFixed(1).replace(/\.0$/, '');
+      }
+
+      function formatMMDD(dateStr) {
+        if (!dateStr) return '--';
+        const parts = dateStr.split('-');
+        if (parts.length < 3) return dateStr;
+        return parts[1] + parts[2];
+      }
+
+      function formatReadableDate(dateStr) {
+        if (!dateStr) return '--';
+        const parts = dateStr.split('-');
+        if (parts.length < 3) return dateStr;
+        return Number(parts[1]) + '月' + Number(parts[2]) + '日';
+      }
+
+      function formatTimestamp(ts) {
+        const d = new Date(ts);
+        const now = new Date();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        const hh = String(d.getHours()).padStart(2, '0');
+        const mm = String(d.getMinutes()).padStart(2, '0');
+
+        const isToday = d.toDateString() === now.toDateString();
+        const yesterday = new Date(now);
+        yesterday.setDate(now.getDate() - 1);
+        const isYesterday = d.toDateString() === yesterday.toDateString();
+
+        if (isToday) return '今天 ' + hh + ':' + mm;
+        if (isYesterday) return '昨天 ' + hh + ':' + mm;
+        return month + '-' + day + ' ' + hh + ':' + mm;
+      }
+
+      function calcDaysBetween(startStr, endStr) {
+        const s = new Date(startStr + 'T00:00:00');
+        const e = endStr ? new Date(endStr + 'T00:00:00') : new Date();
+        const diffMs = e.getTime() - s.getTime();
+        const days = Math.floor(diffMs / (1000 * 60 * 60 * 24)) + 1;
+        return Math.max(1, days);
+      }
+
+      function getCurrentTotalLiters() {
+        const base = Number(state.currentFilter.initialLiters) || 0;
+        const logsSum = state.currentFilter.logs.reduce((acc, item) => acc + (Number(item.amount) || 0), 0);
+        return Math.round((base + logsSum) * 100) / 100;
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function render() {
+        const cf = state.currentFilter;
+        const totalLiters = getCurrentTotalLiters();
+        const target = Number(cf.targetLiters) || 80;
+        const remaining = Math.max(0, Math.round((target - totalLiters) * 100) / 100);
+        const ratio = Math.min(1, Math.max(0, totalLiters / target));
+
+        document.getElementById('headerStartDate').textContent = cf.startDate + ' 启用 (' + formatMMDD(cf.startDate) + ')';
+        document.getElementById('filterTypeText').textContent = cf.name || '专业版滤芯';
+
+        const statusBadge = document.getElementById('filterStatusBadge');
+        const statusText = document.getElementById('filterStatusText');
+        const gaugeCircle = document.getElementById('gaugeFillCircle');
+
+        statusBadge.className = 'status-badge';
+        if (totalLiters >= target) {
+          statusBadge.classList.add('status-expired');
+          statusText.textContent = '已满额 · 建议换芯';
+          gaugeCircle.setAttribute('stroke', 'url(#dangerGrad)');
+        } else if (totalLiters >= target * 0.85) {
+          statusBadge.classList.add('status-warn');
+          statusText.textContent = '即将到期 · 剩 ' + formatNumber(remaining) + 'L';
+          gaugeCircle.setAttribute('stroke', 'url(#warnGrad)');
+        } else {
+          statusBadge.classList.add('status-good');
+          statusText.textContent = '状态良好';
+          gaugeCircle.setAttribute('stroke', 'url(#blueGrad)');
+        }
+
+        document.getElementById('currentLitersText').textContent = formatNumber(totalLiters);
+        document.getElementById('targetLitersText').textContent = formatNumber(target);
+        document.getElementById('remainingLitersText').textContent =
+          totalLiters >= target
+            ? '已超出 ' + formatNumber(totalLiters - target) + ' L，请及时更换'
+            : '剩余可净化 ' + formatNumber(remaining) + ' L';
+
+        const offset = CIRCUMFERENCE * (1 - ratio);
+        gaugeCircle.style.strokeDashoffset = String(offset);
+        document.getElementById('waterLevelBg').style.height = Math.round(ratio * 100) + '%';
+
+        const daysUsed = calcDaysBetween(cf.startDate);
+        document.getElementById('metricDaysUsed').textContent = daysUsed + ' 天';
+        document.getElementById('metricStartShort').textContent = formatReadableDate(cf.startDate) + '起';
+
+        const dailyAvg = totalLiters > 0 ? totalLiters / daysUsed : 0;
+        document.getElementById('metricDailyAvg').textContent = dailyAvg.toFixed(1) + ' L';
+
+        const estDaysEl = document.getElementById('metricEstDays');
+        const estSubEl = document.getElementById('metricEstDate');
+        if (totalLiters >= target) {
+          estDaysEl.textContent = '0 天';
+          estSubEl.textContent = '建议立即换芯';
+        } else if (dailyAvg > 0.05) {
+          const estDays = Math.ceil(remaining / dailyAvg);
+          estDaysEl.textContent = '约 ' + estDays + ' 天';
+          estSubEl.textContent = '按当前频率';
+        } else {
+          estDaysEl.textContent = '-- 天';
+          estSubEl.textContent = '记录后自动估算';
+        }
+
+        const logs = cf.logs;
+        const undoBtn = document.getElementById('btnUndoLast');
+        const undoBtnText = document.getElementById('undoBtnText');
+        const lastLogSubtext = document.getElementById('lastLogSubtext');
+
+        if (logs.length > 0) {
+          const latest = logs[0];
+          undoBtn.disabled = false;
+          const d = new Date(latest.timestamp);
+          const hh = String(d.getHours()).padStart(2, '0');
+          const mm = String(d.getMinutes()).padStart(2, '0');
+          undoBtnText.textContent = '撤销上次 (' + hh + ':' + mm + ')';
+          lastLogSubtext.textContent = '上次净水：' + formatTimestamp(latest.timestamp);
+        } else {
+          undoBtn.disabled = true;
+          undoBtnText.textContent = '撤销上次';
+          lastLogSubtext.textContent = '点击即刻记录当前时间';
+        }
+
+        document.getElementById('logsCountBadge').textContent = String(logs.length);
+        const initialNote = document.getElementById('initialVolumeNote');
+        if (cf.initialLiters > 0) {
+          initialNote.textContent = '含初始已净水 ' + formatNumber(cf.initialLiters) + ' L + 明细 ' + logs.length + ' 条';
+        } else {
+          initialNote.textContent = '每次点击自动记录具体时间';
+        }
+
+        const logsContainer = document.getElementById('logsListContainer');
+        if (logs.length === 0) {
+          logsContainer.innerHTML = '<div class="empty-state">还没有净水打卡记录<br/>点击上方<strong>「记录净水 +1 L」</strong>开始第一次记录吧</div>';
+        } else {
+          const chronological = [...logs].reverse();
+          let running = Number(cf.initialLiters) || 0;
+          const cumulativeMap = {};
+          chronological.forEach((item) => {
+            running = Math.round((running + (Number(item.amount) || 0)) * 100) / 100;
+            cumulativeMap[item.id] = running;
+          });
+
+          logsContainer.innerHTML = logs.map((item) => {
+            const cum = cumulativeMap[item.id];
+            const noteHtml = item.note ? '<span style="color:var(--text-muted);font-weight:400;font-size:12px;">· ' + escapeHtml(item.note) + '</span>' : '';
+            return '<div class="log-item"><div class="log-left"><div class="log-index-badge">' + formatNumber(cum) + 'L</div><div><div class="log-info-title"><span>净水 +' + formatNumber(item.amount) + ' L</span>' + noteHtml + '</div><div class="log-info-time">' + formatTimestamp(item.timestamp) + '</div></div></div><button class="log-delete-btn" data-delete-log="' + item.id + '" title="删除此条记录"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>';
+          }).join('');
+        }
+
+        const history = state.history;
+        document.getElementById('historyCountBadge').textContent = String(history.length);
+        const historyContainer = document.getElementById('historyListContainer');
+        if (history.length === 0) {
+          historyContainer.innerHTML = '<div class="empty-state">暂无历史换芯档案<br/>换新滤芯时会自动归档到这里，也可点击右上角手动补录</div>';
+        } else {
+          historyContainer.innerHTML = history.map((h) => {
+            const startCode = formatMMDD(h.startDate);
+            const endCode = h.endDate ? ' - ' + formatMMDD(h.endDate) : '';
+            const daysText = h.daysUsed ? '使用 ' + h.daysUsed + ' 天' : '';
+            return '<div class="history-item"><div class="history-main"><div class="history-date-code"><span>' + startCode + endCode + '</span><span class="history-type-tag">' + escapeHtml(h.name || '专业版滤芯') + '</span></div><div class="history-sub">' + h.startDate + ' 启用 ' + (daysText ? '· ' + daysText : '') + '</div></div><div class="history-right"><div class="history-liters"><span class="history-liters-num">' + formatNumber(h.totalLiters) + '</span> <span class="history-liters-unit">L</span></div><button class="log-delete-btn" data-delete-history="' + h.id + '" title="删除此条档案"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div></div>';
+          }).join('');
+        }
+      }
+
+      document.getElementById('btnAddOneLiter').addEventListener('click', () => {
+        state.currentFilter.logs.unshift({
+          id: 'log_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+          timestamp: Date.now(),
+          amount: 1,
+          note: ''
+        });
+        saveState();
+        render();
+        showToast('已记录 +1 L（当前共 ' + formatNumber(getCurrentTotalLiters()) + ' L）');
+      });
+
+      document.getElementById('btnUndoLast').addEventListener('click', () => {
+        if (state.currentFilter.logs.length === 0) return;
+        const removed = state.currentFilter.logs.shift();
+        saveState();
+        render();
+        showToast('已撤销上次 +' + formatNumber(removed.amount) + ' L 记录');
+      });
+
+      document.getElementById('logsListContainer').addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-delete-log]');
+        if (!btn) return;
+        const id = btn.getAttribute('data-delete-log');
+        state.currentFilter.logs = state.currentFilter.logs.filter((item) => item.id !== id);
+        saveState();
+        render();
+        showToast('已删除该条净水记录');
+      });
+
+      document.getElementById('historyListContainer').addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-delete-history]');
+        if (!btn) return;
+        const id = btn.getAttribute('data-delete-history');
+        state.history = state.history.filter((item) => item.id !== id);
+        saveState();
+        render();
+        showToast('已删除该条历史档案');
+      });
+
+      const tabBtnLogs = document.getElementById('tabBtnLogs');
+      const tabBtnHistory = document.getElementById('tabBtnHistory');
+      const tabPanelLogs = document.getElementById('tabPanelLogs');
+      const tabPanelHistory = document.getElementById('tabPanelHistory');
+
+      tabBtnLogs.addEventListener('click', () => {
+        tabBtnLogs.classList.add('active');
+        tabBtnHistory.classList.remove('active');
+        tabPanelLogs.style.display = 'block';
+        tabPanelHistory.style.display = 'none';
+      });
+
+      tabBtnHistory.addEventListener('click', () => {
+        tabBtnHistory.classList.add('active');
+        tabBtnLogs.classList.remove('active');
+        tabPanelHistory.style.display = 'block';
+        tabPanelLogs.style.display = 'none';
+      });
+
+      function openModal(id) { document.getElementById(id).classList.add('open'); }
+      function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+      document.querySelectorAll('[data-close]').forEach((btn) => {
+        btn.addEventListener('click', () => closeModal(btn.getAttribute('data-close')));
+      });
+
+      document.querySelectorAll('.modal-backdrop').forEach((backdrop) => {
+        backdrop.addEventListener('click', (e) => {
+          if (e.target === backdrop) backdrop.classList.remove('open');
+        });
+      });
+
+      function openEditFilterModal() {
+        const cf = state.currentFilter;
+        document.getElementById('inputFilterName').value = cf.name || '专业版滤芯';
+        document.getElementById('inputTargetLiters').value = cf.targetLiters || 80;
+        document.getElementById('inputStartDate').value = cf.startDate || getTodayDateStr();
+        document.getElementById('inputInitialLiters').value = cf.initialLiters || 0;
+        document.querySelectorAll('#editFilterPresets .preset-pill').forEach((p) => {
+          p.classList.toggle('selected', p.getAttribute('data-type') === cf.name);
+        });
+        openModal('modalEditFilter');
+      }
+
+      document.getElementById('btnOpenEditFilter').addEventListener('click', openEditFilterModal);
+      document.getElementById('filterTypeBadge').addEventListener('click', openEditFilterModal);
+      document.getElementById('btnQuickSetInitial').addEventListener('click', openEditFilterModal);
+
+      document.querySelectorAll('#editFilterPresets .preset-pill').forEach((pill) => {
+        pill.addEventListener('click', () => {
+          document.querySelectorAll('#editFilterPresets .preset-pill').forEach((p) => p.classList.remove('selected'));
+          pill.classList.add('selected');
+          const type = pill.getAttribute('data-type');
+          const target = pill.getAttribute('data-target');
+          document.getElementById('inputFilterName').value = type;
+          if (target !== 'custom') document.getElementById('inputTargetLiters').value = target;
+        });
+      });
+
+      document.getElementById('btnSaveFilterEdit').addEventListener('click', () => {
+        state.currentFilter.name = document.getElementById('inputFilterName').value.trim() || '专业版滤芯';
+        state.currentFilter.targetLiters = Math.max(1, Number(document.getElementById('inputTargetLiters').value) || 80);
+        state.currentFilter.startDate = document.getElementById('inputStartDate').value || getTodayDateStr();
+        state.currentFilter.initialLiters = Math.max(0, Number(document.getElementById('inputInitialLiters').value) || 0);
+        saveState();
+        render();
+        closeModal('modalEditFilter');
+        showToast('已更新当前滤芯设置');
+      });
+
+      document.getElementById('btnOpenBackfill').addEventListener('click', () => {
+        document.getElementById('inputBackfillVolume').value = '1';
+        document.getElementById('inputBackfillTime').value = getLocalDatetimeInputStr();
+        document.getElementById('inputBackfillNote').value = '';
+        openModal('modalBackfill');
+      });
+
+      document.getElementById('btnSaveBackfill').addEventListener('click', () => {
+        const amount = Number(document.getElementById('inputBackfillVolume').value) || 1;
+        const timeStr = document.getElementById('inputBackfillTime').value;
+        const note = document.getElementById('inputBackfillNote').value.trim();
+        const ts = timeStr ? new Date(timeStr).getTime() : Date.now();
+        state.currentFilter.logs.push({
+          id: 'log_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+          timestamp: isNaN(ts) ? Date.now() : ts,
+          amount: Math.max(0.1, amount),
+          note
+        });
+        state.currentFilter.logs.sort((a, b) => b.timestamp - a.timestamp);
+        saveState();
+        render();
+        closeModal('modalBackfill');
+        showToast('已补录 +' + formatNumber(amount) + ' L 净水记录');
+      });
+
+      document.getElementById('btnOpenReplaceModal').addEventListener('click', () => {
+        document.getElementById('inputNewFilterName').value = '专业版滤芯';
+        document.getElementById('inputNewTargetLiters').value = '80';
+        document.getElementById('inputNewStartDate').value = getTodayDateStr();
+        document.getElementById('chkArchiveOld').checked = true;
+        document.querySelectorAll('#replaceFilterPresets .preset-pill').forEach((p, idx) => {
+          p.classList.toggle('selected', idx === 0);
+        });
+        openModal('modalReplaceFilter');
+      });
+
+      document.querySelectorAll('#replaceFilterPresets .preset-pill').forEach((pill) => {
+        pill.addEventListener('click', () => {
+          document.querySelectorAll('#replaceFilterPresets .preset-pill').forEach((p) => p.classList.remove('selected'));
+          pill.classList.add('selected');
+          document.getElementById('inputNewFilterName').value = pill.getAttribute('data-type');
+          document.getElementById('inputNewTargetLiters').value = pill.getAttribute('data-target');
+        });
+      });
+
+      document.getElementById('btnConfirmReplace').addEventListener('click', () => {
+        const archiveOld = document.getElementById('chkArchiveOld').checked;
+        const newName = document.getElementById('inputNewFilterName').value.trim() || '专业版滤芯';
+        const newTarget = Math.max(1, Number(document.getElementById('inputNewTargetLiters').value) || 80);
+        const newStart = document.getElementById('inputNewStartDate').value || getTodayDateStr();
+
+        if (archiveOld) {
+          const oldTotal = getCurrentTotalLiters();
+          const oldStart = state.currentFilter.startDate;
+          state.history.unshift({
+            id: 'hist_' + Date.now(),
+            name: state.currentFilter.name,
+            targetLiters: state.currentFilter.targetLiters,
+            totalLiters: oldTotal,
+            startDate: oldStart,
+            endDate: newStart,
+            daysUsed: calcDaysBetween(oldStart, newStart)
+          });
+        }
+
+        state.currentFilter = {
+          name: newName,
+          targetLiters: newTarget,
+          startDate: newStart,
+          initialLiters: 0,
+          logs: []
+        };
+
+        saveState();
+        render();
+        closeModal('modalReplaceFilter');
+        showToast('已开启新滤芯周期！');
+      });
+
+      document.getElementById('btnOpenAddHistory').addEventListener('click', () => {
+        document.getElementById('inputHistStartDate').value = getTodayDateStr();
+        document.getElementById('inputHistEndDate').value = '';
+        document.getElementById('inputHistType').value = '专业版滤芯';
+        document.getElementById('inputHistLiters').value = '79';
+        openModal('modalAddHistory');
+      });
+
+      document.getElementById('btnSaveHistoryItem').addEventListener('click', () => {
+        const startDate = document.getElementById('inputHistStartDate').value;
+        if (!startDate) { showToast('请选择滤芯启用日期'); return; }
+        const endDate = document.getElementById('inputHistEndDate').value || '';
+        const name = document.getElementById('inputHistType').value;
+        const totalLiters = Number(document.getElementById('inputHistLiters').value) || 0;
+
+        state.history.push({
+          id: 'hist_' + Date.now() + '_' + Math.random().toString(36).slice(2, 5),
+          name,
+          targetLiters: name.includes('标准') ? 50 : 80,
+          totalLiters,
+          startDate,
+          endDate,
+          daysUsed: endDate ? calcDaysBetween(startDate, endDate) : null
+        });
+
+        state.history.sort((a, b) => (b.startDate || '').localeCompare(a.startDate || ''));
+        saveState();
+        render();
+        closeModal('modalAddHistory');
+        showToast('已添加历史滤芯档案');
+      });
+
+      function applyTheme(themeVal) {
+        if (themeVal === 'light' || themeVal === 'dark') {
+          document.documentElement.setAttribute('data-theme', themeVal);
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+        }
+        localStorage.setItem(THEME_KEY, themeVal);
+        document.querySelectorAll('#themePresets .preset-pill').forEach((p) => {
+          p.classList.toggle('selected', p.getAttribute('data-theme-val') === themeVal);
+        });
+      }
+
+      applyTheme(localStorage.getItem(THEME_KEY) || 'auto');
+
+      document.getElementById('btnOpenSettings').addEventListener('click', () => openModal('modalSettings'));
+      document.querySelectorAll('#themePresets .preset-pill').forEach((pill) => {
+        pill.addEventListener('click', () => applyTheme(pill.getAttribute('data-theme-val')));
+      });
+
+      document.getElementById('btnExportJson').addEventListener('click', () => {
+        const dataStr = JSON.stringify(state, null, 2);
+        const blob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'brita-filter-backup-' + getTodayDateStr() + '.json';
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('已生成备份文件');
+      });
+
+      document.getElementById('btnCopyBackup').addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(JSON.stringify(state));
+          showToast('备份数据已复制到剪贴板');
+        } catch (err) {
+          showToast('复制失败，请使用下载备份文件');
+        }
+      });
+
+      const fileInput = document.getElementById('fileImportInput');
+      document.getElementById('btnImportJsonTrigger').addEventListener('click', () => fileInput.click());
+      fileInput.addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          try {
+            const parsed = JSON.parse(String(reader.result));
+            if (parsed && parsed.currentFilter) {
+              state = parsed;
+              saveState();
+              render();
+              closeModal('modalSettings');
+              showToast('备份数据恢复成功！');
+            } else {
+              showToast('备份文件格式不正确');
+            }
+          } catch (err) {
+            showToast('无法解析备份文件');
+          }
+        };
+        reader.readAsText(file);
+        fileInput.value = '';
+      });
+
+      document.getElementById('btnPasteBackup').addEventListener('click', async () => {
+        const raw = prompt('请粘贴之前复制的备份数据 JSON：');
+        if (!raw) return;
+        try {
+          const parsed = JSON.parse(raw.trim());
+          if (parsed && parsed.currentFilter) {
+            state = parsed;
+            saveState();
+            render();
+            closeModal('modalSettings');
+            showToast('数据恢复成功！');
+          } else {
+            showToast('数据格式不正确');
+          }
+        } catch (err) {
+          showToast('粘贴的数据格式有误');
+        }
+      });
+
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js').catch(() => {});
+        });
+      }
+
+      render();
+    })();
+  </script>
+</body>
+</html>

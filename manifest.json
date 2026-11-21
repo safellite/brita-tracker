@@ -1,0 +1,29 @@
+{
+  "name": "碧然德滤芯记录",
+  "short_name": "滤芯记录",
+  "description": "轻量整洁的碧然德滤水壶净水量与换芯记录工具",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#F2F7FB",
+  "theme_color": "#0088FF",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
